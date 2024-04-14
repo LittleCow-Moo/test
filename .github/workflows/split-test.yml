@@ -1,0 +1,35 @@
+name: My Workflow
+
+on: [push]
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Detect something
+        # Add your detection steps here
+        run: echo "Detection step"
+
+      - name: Trigger Job 2
+        if: always() # Ensure this step always runs, regardless of the previous steps' result
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const response = await github.actions.createWorkflowDispatch({
+              workflow_id: 'path/to/job2.yml' // Replace with the path to your Job 2 workflow YAML file
+            });
+            console.log(response);
+
+  job2:
+    runs-on: ubuntu-latest
+    needs: job1
+    steps:
+      - name: Job 2 step
+        run: echo "This is Job 2"
+
+  job3:
+    runs-on: ubuntu-latest
+    needs: job1
+    steps:
+      - name: Job 3 step
+        run: echo "This is Job 3"
