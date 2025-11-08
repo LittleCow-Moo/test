@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Embedded Leaflet Map</title>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+
+    <style>
+      body {
+        margin: 0;
+      }
+      /* Set a height for the map container, which is absolutely necessary */
+      #mapid {
+        width: 100%;
+        height: 400px;
+      }
+      img.grayNode {
+        filter: grayscale(100%);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="mapid"></div>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+
+    <script>
+      var map = L.map("mapid").setView([40, 0], 2);
+      const routerIcon = L.icon({
+        iconUrl: "https://hackmd.io/_uploads/B1fvzIpy-l.png",
+        iconSize: [30, 25],
+      });
+      const grayRouterIcon = L.icon({
+        iconUrl: "https://hackmd.io/_uploads/B1fvzIpy-l.png",
+        iconSize: [30, 25],
+      });
+      var nodes = [
+        {
+          name: "TXG",
+          location: "Taichung, Taiwan",
+          flag: "🇹🇼",
+          lon: 120.68115,
+          lat: 24.1047,
+          desc: "AS17809 VEE TIME CORP.",
+        },
+        {
+          name: "TYO",
+          location: "Tokyo, Japan",
+          flag: "🇯🇵",
+          lon: 140.1232,
+          lat: 35.81839,
+          desc: "AS31898 Oracle Corporation",
+        },
+        {
+          name: "LAX",
+          location: "Los Angeles, CA, United States",
+          flag: "🇺🇸",
+          lon: -118.26628,
+          lat: 34.05122,
+          desc: "AS36352 HostPapa",
+        },
+        {
+          name: "BRN",
+          location: "Bern, Switzerland",
+          flag: "🇨🇭",
+          lon: 7.44743,
+          lat: 46.94798,
+          desc: " AS53667 FranTech Solutions",
+        },
+        {
+          name: "TFU",
+          location: "Chengdu, Sichuan, China",
+          flag: "🇨🇳",
+          lon: 104.444731,
+          lat: 30.323036,
+          desc: "AS9808 China Mobile Backbone",
+        },
+        {
+          name: "YYZ",
+          location: "Toronto, ON, Canada",
+          flag: "🇨🇦",
+          lon: -79.38422912449562,
+          lat: 43.644632654354226,
+          desc: "AS36352 HostPapa",
+        },
+        {
+          name: "HKG",
+          location: "Hong Kong SAR",
+          flag: "🇭🇰",
+          lon: 114.165278,
+          lat: 22.280556,
+          desc: "AS214439 Zhuhai Xiyun Cloud Technology Co., Ltd.",
+          upcoming: true,
+        },
+        {
+          name: "SLC",
+          location: "Salt Lake City, UT, United States",
+          flag: "🇺🇸",
+          lon: -111.883333,
+          lat: 40.75,
+          desc: "AS53808 MoeDove",
+          upcoming: true,
+        },
+      ];
+
+      L.tileLayer(
+        "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'",
+        {
+          maxZoom: 19,
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        }
+      ).addTo(map);
+      for (const node of nodes) {
+        var marker = L.marker([node.lat, node.lon], { icon: routerIcon })
+          .addTo(map)
+          .bindPopup(
+            `${node.name}<br>${node.flag} ${node.location}<br>${node.desc}${
+              node.upcoming ? "<br><b>Upcoming!</b>" : ""
+            }`
+          );
+        if (node.upcoming) marker._icon.classList.add("grayNode");
+      }
+    </script>
+  </body>
+</html>
