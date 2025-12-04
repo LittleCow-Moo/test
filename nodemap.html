@@ -23,8 +23,8 @@
       img.grayNode {
         filter: grayscale(100%);
       }
-      img.redNode {
-        filter: brightness(0) saturate(100%) invert(16%) sepia(42%) saturate(7460%) hue-rotate(355deg) brightness(112%) contrast(129%);
+      img.orangeNode {
+        filter: grayscale(100%) sepia(100%) hue-rotate(335deg) saturate(500%);
       }
     </style>
   </head>
@@ -141,10 +141,11 @@
             }`
           );
         if (node.upcoming) marker._icon.classList.add("grayNode");
-        if (node.dead) marker._icon.classList.add("redNode");
+        if (node.dead) marker._icon.classList.add("orangeNode");
       }
     </script>
   </body>
 </html>
+
 
 
