@@ -16,13 +16,15 @@
       body {
         margin: 0;
       }
-      /* Set a height for the map container, which is absolutely necessary */
       #mapid {
         width: 100%;
         height: 400px;
       }
       img.grayNode {
         filter: grayscale(100%);
+      }
+      img.redNode {
+        filter: brightness(0) saturate(100%) invert(16%) sepia(42%) saturate(7460%) hue-rotate(355deg) brightness(112%) contrast(129%);
       }
     </style>
   </head>
@@ -85,6 +87,7 @@
           lon: 104.444731,
           lat: 30.323036,
           desc: "AS9808 China Mobile Backbone",
+          dead: true,
         },
         {
           name: "YYZ",
@@ -134,12 +137,14 @@
           .addTo(map)
           .bindPopup(
             `${node.name}<br>${node.flag} ${node.location}<br>${node.desc}${
-              node.upcoming ? "<br><b>Upcoming!</b>" : ""
+              node.upcoming||node.dead ? `<br><b>${node.upcoming?"Upcoming":"Dead"}!</b>` : ""
             }`
           );
         if (node.upcoming) marker._icon.classList.add("grayNode");
+        if (node.dead) marker._icon.classList.add("redNode");
       }
     </script>
   </body>
 </html>
+
 
