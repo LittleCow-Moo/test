@@ -1,163 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Embedded Leaflet Map</title>
 
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-      crossorigin=""
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Embedded Leaflet Map</title>
 
-    <style>
-      body {
-        margin: 0;
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+  <style>
+    body {
+      margin: 0;
+    }
+
+    #mapid {
+      width: 100%;
+      height: 400px;
+    }
+
+    img.grayNode {
+      filter: grayscale(100%);
+    }
+
+    img.orangeNode {
+      filter: grayscale(100%) sepia(100%) hue-rotate(335deg) saturate(500%);
+    }
+
+    .map-tiles {
+      filter: grayscale(100%) invert(100%) brightness(120%) contrast(80%) brightness(80%);
+    }
+
+    @media (prefers-color-scheme: light) {
+      .map-tiles {
+        filter: grayscale(100%) invert(100%) brightness(120%) contrast(80%) invert(100%) brightness(120%);
       }
-      #mapid {
-        width: 100%;
-        height: 400px;
-      }
-      img.grayNode {
-        filter: grayscale(100%);
-      }
-      img.orangeNode {
-        filter: grayscale(100%) sepia(100%) hue-rotate(335deg) saturate(500%);
-      }
-    </style>
-  </head>
-  <body>
-    <div id="mapid"></div>
+    }
+  </style>
+</head>
 
-    <script
-      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-      crossorigin=""
-    ></script>
+<body>
+  <div id="mapid"></div>
 
-    <script>
-      var map = L.map("mapid").setView([40, 0], 1);
-      const routerIcon = L.icon({
-        iconUrl: "https://hackmd.io/_uploads/B1fvzIpy-l.png",
-        iconSize: [30, 25],
-      });
-      const grayRouterIcon = L.icon({
-        iconUrl: "https://hackmd.io/_uploads/B1fvzIpy-l.png",
-        iconSize: [30, 25],
-      });
-      var nodes = [
-        {
-          name: "TXG",
-          location: "Taichung, Taiwan",
-          flag: "🇹🇼",
-          lon: 120.68115,
-          lat: 24.1047,
-          desc: "AS17809 VEE TIME CORP.",
-        },
-        {
-          name: "TYO",
-          location: "Tokyo, Japan",
-          flag: "🇯🇵",
-          lon: 140.1232,
-          lat: 35.81839,
-          desc: "AS31898 Oracle Corporation",
-        },
-        {
-          name: "LAX",
-          location: "Los Angeles, CA, United States",
-          flag: "🇺🇸",
-          lon: -118.26628,
-          lat: 34.05122,
-          desc: "AS36352 HostPapa",
-        },
-        {
-          name: "FRA",
-          location: "Frankfurt, Germany",
-          flag: "🇩🇪",
-          lon: 8.683333,
-          lat: 50.116667,
-          desc: "AS199310 XIN BING XIAN",
-        },
-        {
-          name: "YUL",
-          location: "Montreal, ON, Canada",
-          flag: "🇨🇦",
-          lon: -73.89655008682622,
-          lat: 45.30928394436059,
-          desc: "AS16276 OVH SAS (v4) + AS197817 Yunxiao Bai (v6)",
-        },
-        {
-          name: "HKG",
-          location: "Hong Kong SAR",
-          flag: "🇭🇰",
-          lon: 114.11921574773736,
-          lat: 22.36227599254746, 
-          desc: "AS214439 Zhuhai Xiyun Cloud Technology Co., Ltd.",
-        },
-        {
-          name: "SLC",
-          location: "Salt Lake City, UT, United States",
-          flag: "🇺🇸",
-          lon: -111.88771632795,
-          lat: 40.51144284746243,
-          desc: "AS53808 MoeDove",
-        },
-        {
-          name: "HGH",
-          location: "Shaoxing, Zhejiang, China",
-          flag: "🇨🇳",
-          lon: 120.586,
-          lat: 29.995,
-          desc: "AS9808 China Telecom Backbone",
-        },
-        {
-          name: "DOY",
-          location: "Dongying, Shandong, China",
-          flag: "🇨🇳",
-          lon: 118.6746,
-          lat: 37.434,
-          desc: "AS4837 CHINA UNICOM China169 Backbone",
-        },
-      ];
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-      const layer = L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        {
-          maxZoom: 10,
-          attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors',
-        }
-      ).addTo(map);
-      layer.getContainer().style.filter = 'grayscale(100%) invert(100%) brightness(120%) contrast(80%) invert(100%)';
-      var southWest = L.latLng(-89.98155760646617, -180),
-        northEast = L.latLng(89.99346179538875, 180);
-      var bounds = L.latLngBounds(southWest, northEast);
+  <script>
+    var map = L.map("mapid").setView([40, 0], 1);
+    const routerIcon = L.icon({
+      iconUrl: "https://hackmd.io/_uploads/B1fvzIpy-l.png",
+      iconSize: [30, 25],
+    });
+    const grayRouterIcon = L.icon({
+      iconUrl: "https://hackmd.io/_uploads/B1fvzIpy-l.png",
+      iconSize: [30, 25],
+    });
+    var nodes = [
+      {
+        name: "TXG",
+        location: "Taichung, Taiwan",
+        flag: "🇹🇼",
+        lon: 120.68115,
+        lat: 24.1047,
+        desc: "AS17809 VEE TIME CORP.",
+      },
+      {
+        name: "TYO",
+        location: "Tokyo, Japan",
+        flag: "🇯🇵",
+        lon: 140.1232,
+        lat: 35.81839,
+        desc: "AS31898 Oracle Corporation",
+      },
+      {
+        name: "LAX",
+        location: "Los Angeles, CA, United States",
+        flag: "🇺🇸",
+        lon: -118.26628,
+        lat: 34.05122,
+        desc: "AS36352 HostPapa",
+      },
+      {
+        name: "FRA",
+        location: "Frankfurt, Germany",
+        flag: "🇩🇪",
+        lon: 8.683333,
+        lat: 50.116667,
+        desc: "AS199310 XIN BING XIAN",
+      },
+      {
+        name: "YUL",
+        location: "Montreal, ON, Canada",
+        flag: "🇨🇦",
+        lon: -73.89655008682622,
+        lat: 45.30928394436059,
+        desc: "AS16276 OVH SAS (v4) + AS197817 Yunxiao Bai (v6)",
+      },
+      {
+        name: "HKG",
+        location: "Hong Kong SAR",
+        flag: "🇭🇰",
+        lon: 114.11921574773736,
+        lat: 22.36227599254746,
+        desc: "AS214439 Zhuhai Xiyun Cloud Technology Co., Ltd.",
+      },
+      {
+        name: "SLC",
+        location: "Salt Lake City, UT, United States",
+        flag: "🇺🇸",
+        lon: -111.88771632795,
+        lat: 40.51144284746243,
+        desc: "AS53808 MoeDove",
+      },
+      {
+        name: "HGH",
+        location: "Shaoxing, Zhejiang, China",
+        flag: "🇨🇳",
+        lon: 120.586,
+        lat: 29.995,
+        desc: "AS9808 China Telecom Backbone",
+      },
+      {
+        name: "DOY",
+        location: "Dongying, Shandong, China",
+        flag: "🇨🇳",
+        lon: 118.6746,
+        lat: 37.434,
+        desc: "AS4837 CHINA UNICOM China169 Backbone",
+      },
+    ];
 
-      map.setMaxBounds(bounds);
-      map.on("drag", function () {
-        map.panInsideBounds(bounds, { animate: false });
-      });
-      for (const node of nodes) {
-        var marker = L.marker([node.lat, node.lon], { icon: routerIcon })
-          .addTo(map)
-          .bindPopup(
-            `${node.name}<br>${node.flag} ${node.location}<br>${node.desc}${
-              node.upcoming||node.dead ? `<br><b>${node.upcoming?"Upcoming":"Dead"}!</b>` : ""
-            }`
-          );
-        if (node.upcoming) marker._icon.classList.add("grayNode");
-        if (node.dead) marker._icon.classList.add("orangeNode");
+    const layer = L.tileLayer(
+      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      {
+        maxZoom: 10,
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors',
+        className: "map-tiles"
       }
-    </script>
-  </body>
+    ).addTo(map);
+    var southWest = L.latLng(-89.98155760646617, -180),
+      northEast = L.latLng(89.99346179538875, 180);
+    var bounds = L.latLngBounds(southWest, northEast);
+
+    map.setMaxBounds(bounds);
+    map.on("drag", function () {
+      map.panInsideBounds(bounds, { animate: false });
+    });
+    for (const node of nodes) {
+      var marker = L.marker([node.lat, node.lon], { icon: routerIcon })
+        .addTo(map)
+        .bindPopup(
+          `${node.name}<br>${node.flag} ${node.location}<br>${node.desc}${node.upcoming || node.dead ? `<br><b>${node.upcoming ? "Upcoming" : "Dead"}!</b>` : ""
+          }`
+        );
+      if (node.upcoming) marker._icon.classList.add("grayNode");
+      if (node.dead) marker._icon.classList.add("orangeNode");
+    }
+  </script>
+</body>
+
 </html>
-
-
-
-
-
-
-
-
